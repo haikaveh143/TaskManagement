@@ -1,0 +1,5 @@
+.env
+.vs/
+writable/cache/
+writable/logs/
+writable/session/
