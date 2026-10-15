@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class TaskModel extends Model
 {
-    protected $table = 'tasks';
+    protected $table = 'tasks1';
 
     protected $primaryKey = 'id';
 
@@ -14,6 +14,7 @@ class TaskModel extends Model
         'title',
         'status',
         'task_date',
-        'created_at'
+        'created_at',
+        'is_archived',
     ];
 }

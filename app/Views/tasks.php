@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +30,36 @@
         h2 {
             color: #555;
             margin-top: 25px;
+        }
+
+        .account-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px;
+            background-color: #f4f6f9;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .account-name {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b;
         }
 
         nav {
@@ -79,6 +110,40 @@
             text-align: center;
             padding: 20px;
         }
+
+        .task-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .task-actions form {
+            margin: 0;
+        }
+
+        .task-actions button,
+        .edit-btn {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .archive-btn {
+            background-color: #f39c12;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+        .edit-btn {
+            background-color: #3498db;
+        }
     </style>
 </head>
 
@@ -88,9 +153,24 @@
 
         <h1>Task List</h1>
 
+        <div class="account-bar">
+            <span class="account-name">
+                Logged in as
+                <strong><?= esc(session()->get('username')) ?></strong>
+            </span>
+
+            <a class="logout-btn"
+               href="<?= base_url('index.php/logout') ?>"
+               onclick="return confirm('Are you sure you want to log out?');">
+                Logout
+            </a>
+        </div>
+
         <nav>
             <a href="<?= base_url('index.php/') ?>">Welcome</a>
             <a href="<?= base_url('index.php/tasks') ?>">Task List</a>
+            <a href="<?= base_url('index.php/tasks/new') ?>">New Task</a>
+            <a href="<?= base_url('index.php/tasks/archived') ?>">Archived Tasks</a>
             <a href="<?= base_url('index.php/profile') ?>">Profile</a>
             <a href="<?= base_url('index.php/about') ?>">About</a>
         </nav>
@@ -116,6 +196,33 @@
                         <strong>Date:</strong>
                         <?= esc($task['task_date']) ?>
                     </p>
+
+                    <div class="task-actions">
+
+                        <a class="edit-btn"
+                           href="<?= base_url('index.php/tasks/edit/' . $task['id']) ?>">
+                            Edit
+                        </a>
+
+                        <form action="<?= base_url('index.php/tasks/archive/' . $task['id']) ?>"
+                              method="post"
+                              onsubmit="return confirm('Archive this task?');">
+                            <?= csrf_field() ?>
+                            <button class="archive-btn" type="submit">
+                                Archive
+                            </button>
+                        </form>
+
+                        <form action="<?= base_url('index.php/tasks/delete/' . $task['id']) ?>"
+                              method="post"
+                              onsubmit="return confirm('Are you sure you want to delete this task?');">
+                            <?= csrf_field() ?>
+                            <button class="delete-btn" type="submit">
+                                Delete
+                            </button>
+                        </form>
+
+                    </div>
 
                 </div>
 
